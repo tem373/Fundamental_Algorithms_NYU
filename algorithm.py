@@ -10,15 +10,17 @@ leaf with the smallest value.
 @author: Alex Crain
 """
 
+
 def game(node_start, first_mover):
     """Play the game and return Paul's payoff."""
     if node_start.min is None:
         depth_first_minmax(node_start)
     mover = first_mover
     node_current = node_start
-    while (node_current.adjacents) != 0:
+    while node_current.adjacents:
         node_current, mover = node_selektor(node_current, mover)
     return node_current.value
+
 
 def node_selektor(parent, mover):
     """Decide which node to move to and give the other player the next move."""
@@ -30,6 +32,7 @@ def node_selektor(parent, mover):
         child = parent.minchild
         mover = "PAUL"
     return child, mover
+
 
 def depth_first_minmax(parent):
     """Endow each node in a DAG with the max and min of its children."""
@@ -45,7 +48,7 @@ def depth_first_minmax(parent):
                 value_max = child.max
                 parent.maxchild = child
     parent.color = "BLACK"
-    if len(parent.adjacents) == 0:
+    if parent.adjacents:
         parent.min = parent.value
         parent.max = parent.value
     else:
