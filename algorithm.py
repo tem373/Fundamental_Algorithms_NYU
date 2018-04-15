@@ -13,7 +13,7 @@ leaf with the smallest value.
 
 def game(node_start, first_mover):
     """Play the game and return Paul's payoff."""
-    if node_start.min is None:
+    if node_start.min is None or node_start.max is None:
         depth_first_minmax(node_start)
     mover = first_mover
     node_current = node_start
@@ -31,6 +31,8 @@ def node_selektor(parent, mover):
     elif mover == "CAROLE":
         child = parent.minchild
         mover = "PAUL"
+    else:
+        raise ValueError("Mover must be either PAUL or CAROLE")
     return child, mover
 
 
