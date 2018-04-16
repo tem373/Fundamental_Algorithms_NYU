@@ -31,7 +31,7 @@ def node_selektor(parent, mover):
         next_mover = "PAUL"
         child = parent.minchild
     else:
-        raise ValueError("Neither PAUL nor CAROLE got the move.")
+        raise ValueError('Unknown player ' + mover + ' got a move.')
     return child, next_mover
 
 
@@ -39,6 +39,7 @@ def depth_first_minmax(parent):
     """Endow each node in a DAG with the max and min of its children."""
     value_min = float("inf")
     value_max = float("-inf")
+    parent.color = "GRAY"
     for child in parent.adjacents:
         if child.color == "WHITE":
             depth_first_minmax(child)
