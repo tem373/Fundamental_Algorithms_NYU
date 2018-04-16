@@ -1,37 +1,43 @@
-"@author: Thomas Mason"
+"""
+Constructs a graph to the Game's specifications:
+The starting node's string's empty, all other nodes'
+strings encode a unique sequence of moves,
+and all nodes save the leaves receive adjacencies.
 
-from node import *
+@author: Thomas Mason, Alex Crain
+"""
+from random import uniform
+from node import Node
 
 class Graph:
-    def __init__(self, n):
-        self.vertices = []
-        self.num_leafs = (2 ** n)
-        self.num_moves = n
-        self.num_nodes = ()(2 ** (n+1))-1)
-                
-        for i in range(0, self.num_nodes):
-            self.vertices.append(Node())
-        self.vertices[0].string = "START"
+    """Construct the DAG for an n-move Game."""
+    def __init__(self, num_moves):
+        self.num_moves = num_moves
+        self.count_nodes()
+        self.vertices = list(Node() for v in range(self.num_nodes))
         self.structure()
-        
 
-    # Constructor functions
+
+    def count_nodes(self):
+        """Derive some useful node tallies from the number of moves."""
+        self.num_nodes = 2 ** (self.num_moves + 1) - 1
+        self.num_leaves = 2 ** self.num_moves
+        self.num_parents = 2 ** self.num_moves - 1
+
+
     def structure(self):
-        for i in range(0, self.num_leafs-1):
-            self.assign_adjacents(s)
-    
-    
-    def assign_adjacents(self, node):
-        """Children of node vertices[i] are in:
-           vertices[2i + 1]
-           vertices[2i + 2] 
-        """
-        
-        index = self.vertices.index(node)
-        
-        node.adjacents.append(vertices[(2*index)+1])
-        node.adjacents.append(vertices[(2*index)+2])
-        node.name_adjacents()
-    
-    
-    
+        """Assign adjacency lists and strings to each node."""
+        for index, vertex in enumerate(self.vertices):
+            if index < self.num_parents:
+                vertex.adjacents.append(self.vertices[2 * index + 1])
+                vertex.adjacents.append(self.vertices[2 * index + 2])
+            else:
+                vertex.value = uniform(-1, 1)
+            if index < self.num_nodes - 1:
+                parent_name = self.vertices[int(index / 2)].string
+                self.vertices[index + 1].string += parent_name + str(index % 2)
+
+
+    def leaf_values(self):
+        """Get the values of all the leaves."""
+        return list(v.value for v in self.vertices[self.num_parents:])

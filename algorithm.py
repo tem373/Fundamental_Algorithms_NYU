@@ -1,39 +1,38 @@
 """
 Algorithm for two-player minimax game on a DAG.
-Starting from some node s, Player Paul wants to
-end up at the leaf with the greatest value. Player
-Carole has to pay Paul the value of whatever leaf
-they end up on, so she wants to end up at the
-leaf with the smallest value.
+Player Paul wants to end up at the leaf with the greatest value.
+Player Carole has to pay Paul the value of whatever leaf
+they end up on, so she wants to end up at the leaf
+with the smallest value. One of them gets the first move
+at node s, and they alternate moves until ending on a leaf.
 
 
 @author: Alex Crain
 """
 
 
-def game(node_start, first_mover):
+def game(node, mover):
     """Play the game and return Paul's payoff."""
-    if node_start.min is None or node_start.max is None:
-        depth_first_minmax(node_start)
-    mover = first_mover
-    node_current = node_start
-    while node_current.adjacents:
-        node_current, mover = node_selektor(node_current, mover)
-    return node_current.value
+    if node.min is None or node.max is None:
+        depth_first_minmax(node)
+    while node.adjacents:
+        node, mover = node_selektor(node, mover)
+    return node.value
 
 
 def node_selektor(parent, mover):
     """Decide which node to move to and give the other player the next move."""
     child = None
+    next_mover = None
     if mover == "PAUL":
+        next_mover = "CAROLE"
         child = parent.maxchild
-        mover = "CAROLE"
     elif mover == "CAROLE":
+        next_mover = "PAUL"
         child = parent.minchild
-        mover = "PAUL"
     else:
-        raise ValueError("Mover must be either PAUL or CAROLE")
-    return child, mover
+        raise ValueError("Neither PAUL nor CAROLE got the move.")
+    return child, next_mover
 
 
 def depth_first_minmax(parent):
@@ -51,8 +50,8 @@ def depth_first_minmax(parent):
                 parent.maxchild = child
     parent.color = "BLACK"
     if parent.adjacents:
-        parent.min = parent.value
-        parent.max = parent.value
-    else:
         parent.min = value_min
         parent.max = value_max
+    else:
+        parent.min = parent.value
+        parent.max = parent.value
