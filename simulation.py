@@ -1,3 +1,5 @@
+"@author: Thomas Mason"
+
 import argparse
 
 from algorithm import *
@@ -28,7 +30,12 @@ parser._action_groups.append(optional_args)
 args = parser.parse_args()
 print(args)
 
+
 ################################################################################
 #                                  Setup and Run                               #
 ################################################################################
+
+graph = Graph(args.moves)
+payoff = game(graph.vertices[0], args.player1)
+print("Payoff: " + str(payoff))
 
