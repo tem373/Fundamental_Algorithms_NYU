@@ -46,11 +46,14 @@ player1 = str(args.player1)
 ################################################################################
 #                                  Setup and Run                               #
 ################################################################################
+trial_set = []
 
+# One off graph setup to visualize the game you're playing
 graph = Graph(moves)
 enum_graph_structure(graph, player1)
 
-
+for iteration in iterations:
+    
 
 payoff = game(graph.vertices[0], player1)
 print("Payoff: " + str(payoff))
