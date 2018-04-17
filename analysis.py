@@ -66,6 +66,7 @@ class Trial:
         self.id_number = -1
         self.first_move = self.was_player_paul(first_player)
         self.last_move = self.was_player_paul(last_player)
+        self.payoff = None
         
     def was_player_paul(self, player):
         was_paul = False
