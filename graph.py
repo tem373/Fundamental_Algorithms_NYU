@@ -6,16 +6,15 @@ and all nodes save the leaves receive adjacencies.
 
 @author: Thomas Mason, Alex Crain
 """
-from random import uniform
 from node import Node
 
 class Graph:
     """Construct the DAG for an n-move Game."""
-    def __init__(self, num_moves):
+    def __init__(self, num_moves, give_value="Uniform"):
         self.num_moves = num_moves
         self.count_nodes()
         self.vertices = list(Node() for v in range(self.num_nodes))
-        self.structure()
+        self.structure(give_value)
 
 
     def count_nodes(self):
@@ -25,14 +24,14 @@ class Graph:
         self.num_parents = 2 ** self.num_moves - 1
 
 
-    def structure(self):
-        """Assign adjacency lists and strings to each node."""
+    def structure(self, give_value):
+        """Assign adjacency lists, strings, and values to each node."""
         for index, vertex in enumerate(self.vertices):
             if index < self.num_parents:
                 vertex.adjacents.append(self.vertices[2 * index + 1])
                 vertex.adjacents.append(self.vertices[2 * index + 2])
             else:
-                vertex.value = uniform(-1, 1)
+                vertex.reset_value(give_value)
             if index < self.num_nodes - 1:
                 parent_name = self.vertices[int(index / 2)].string
                 self.vertices[index + 1].string += parent_name + str(index % 2)
