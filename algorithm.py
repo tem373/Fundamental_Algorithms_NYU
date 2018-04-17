@@ -26,10 +26,10 @@ def node_selektor(parent, mover):
     next_mover = None
     if mover == "PAUL":
         next_mover = "CAROLE"
-        child = parent.argmax
+        child = parent.argmaximin
     elif mover == "CAROLE":
         next_mover = "PAUL"
-        child = parent.argmin
+        child = parent.argminimax
     else:
         raise ValueError('Unknown player ' + mover + ' got a move.')
     return child, next_mover
@@ -39,20 +39,34 @@ def dfs_extrema(parent):
     """Endow each node in a DAG with the max and min of its children."""
     value_min = float("inf")
     value_max = float("-inf")
+    value_minimax = float("inf")
+    value_maximin = float("-inf")
     parent.color = "GRAY"
     for child in parent.adjacents:
         if child.color == "WHITE":
             dfs_extrema(child)
             if value_min >= child.min:
                 value_min = child.min
-                parent.argmin = child
+            if value_maximin < child.min:
+                value_maximin = child.argminimax.maximin
+                argmaximin = child
             if value_max < child.max:
                 value_max = child.max
-                parent.argmax = child
+            if value_minimax >= child.max:
+                value_minimax = child.argmaximin.minimax
+                argminimax = child
     parent.color = "BLACK"
     if parent.adjacents:
         parent.min = value_min
         parent.max = value_max
+        parent.minimax = value_minimax
+        parent.maximin = value_maximin
+        parent.argminimax = argminimax
+        parent.argmaximin = argmaximin
     else:
         parent.min = parent.value
         parent.max = parent.value
+        parent.minimax = parent.value
+        parent.maximin = parent.value
+        parent.argminimax = parent
+        parent.argmaximin = parent
