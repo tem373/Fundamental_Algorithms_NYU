@@ -62,11 +62,12 @@ def enum_graph_structure(graph, player1):
 
 class Trial:
     """Holds parameters and results of one run of the game."""
-    def __init__(self, id_number, first_player, last_player):
+    def __init__(self, id_number, first_player, last_player, num_moves):
         self.id_number = -1
         self.first_move = self.was_player_paul(first_player)
         self.last_move = self.was_player_paul(last_player)
         self.payoff = None
+        self.num_moves = num_moves
         
     def was_player_paul(self, player):
         was_paul = False
