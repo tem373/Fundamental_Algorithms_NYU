@@ -10,22 +10,24 @@ import numpy as np
 from algorithm import game
 from graph import Graph
 
-payoff_paul_goes_first = list()
-payoff_carole_goes_first = list()
-for i in range(4,7):
-    payoff_paul_goes_first = list()
-    payoff_carole_goes_first = list()
-    for j in range(10):
-        g = Graph(i)
-        payoff_paul_goes_first.append(game(g.vertices[0], "PAUL"))
-        payoff_carole_goes_first.append(game(g.vertices[0], "CAROLE"))
-    print("Move count", i)
-    print("Paul first:", np.mean(payoff_paul_goes_first))
-    print("Carole first:", np.mean(payoff_carole_goes_first))
+#payoff_paul_goes_first = list()
+#payoff_carole_goes_first = list()
+#for i in range(4,6):
+#    payoff_paul_goes_first = list()
+#    payoff_carole_goes_first = list()
+#    for j in range(10):
+#        g = Graph(i)
+#        payoff_paul_goes_first.append(game(g.vertices[0], "PAUL"))
+#        payoff_carole_goes_first.append(game(g.vertices[0], "CAROLE"))
+#    print("Move count", i)
+#    print("Paul first:", np.mean(payoff_paul_goes_first))
+#    print("Carole first:", np.mean(payoff_carole_goes_first))
 
-#g = Graph(5)
-#paypaul = game(g.vertices[0], "PAUL")
-#paycaro = game(g.vertices[0], "CAROLE")
+g = Graph(5)
+paypaul = game(g.vertices[0], "PAUL")
+paycaro = game(g.vertices[0], "CAROLE")
+paulfirst = g.vertices[0].maximin
+carofirst = g.vertices[0].minimax
 
 #g = Graph(3)
 #g.vertices[7].value = 5

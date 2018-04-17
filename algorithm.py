@@ -47,12 +47,12 @@ def dfs_extrema(parent):
             dfs_extrema(child)
             if value_min >= child.min:
                 value_min = child.min
-            if value_maximin < child.min:
+            if value_maximin < child.argminimax.max:
                 value_maximin = child.argminimax.maximin
                 argmaximin = child
             if value_max < child.max:
                 value_max = child.max
-            if value_minimax >= child.max:
+            if value_minimax >= child.argmaximin.min:
                 value_minimax = child.argmaximin.minimax
                 argminimax = child
     parent.color = "BLACK"
