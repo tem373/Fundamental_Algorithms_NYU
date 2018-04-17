@@ -1,4 +1,4 @@
-"@author: Thomas Mason"
+"""@author: Thomas Mason"""
 
 class Node:
     def __init__(self, *adjacents):

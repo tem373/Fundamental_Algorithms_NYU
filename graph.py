@@ -36,6 +36,8 @@ class Graph:
             if index < self.num_nodes - 1:
                 parent_name = self.vertices[int(index / 2)].string
                 self.vertices[index + 1].string += parent_name + str(index % 2)
+        
+        self.vertices[0].string = 'START'
 
 
     def leaf_values(self):
