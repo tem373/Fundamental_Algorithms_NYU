@@ -14,7 +14,7 @@ at node s, and they alternate moves until ending on a leaf.
 def game(node, mover):
     """Play the game and return Paul's payoff."""
     if node.min is None or node.max is None:
-        depth_first_minmax(node)
+        dfs_extrema(node)
     while node.adjacents:
         node, mover = node_selektor(node, mover)
     return node.value
@@ -26,29 +26,29 @@ def node_selektor(parent, mover):
     next_mover = None
     if mover == "PAUL":
         next_mover = "CAROLE"
-        child = parent.maxchild
+        child = parent.argmax
     elif mover == "CAROLE":
         next_mover = "PAUL"
-        child = parent.minchild
+        child = parent.argmin
     else:
         raise ValueError('Unknown player ' + mover + ' got a move.')
     return child, next_mover
 
 
-def depth_first_minmax(parent):
+def dfs_extrema(parent):
     """Endow each node in a DAG with the max and min of its children."""
     value_min = float("inf")
     value_max = float("-inf")
     parent.color = "GRAY"
     for child in parent.adjacents:
         if child.color == "WHITE":
-            depth_first_minmax(child)
+            dfs_extrema(child)
             if value_min >= child.min:
                 value_min = child.min
-                parent.minchild = child
+                parent.argmin = child
             if value_max < child.max:
                 value_max = child.max
-                parent.maxchild = child
+                parent.argmax = child
     parent.color = "BLACK"
     if parent.adjacents:
         parent.min = value_min
