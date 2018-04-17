@@ -11,8 +11,10 @@ class Node:
         self.reset_value(give_value)
         self.max = None
         self.min = None
-        self.argmax = None
-        self.argmin = None
+        self.maximin = None
+        self.minimax = None
+        self.argmaximin = None
+        self.argminimax = None
         self.assign_adjacents(adjacents)
 
     def assign_adjacents(self, adjacents):
