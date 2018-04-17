@@ -50,6 +50,8 @@ player1 = str(args.player1)
 graph = Graph(moves)
 enum_graph_structure(graph, player1)
 
+
+
 payoff = game(graph.vertices[0], player1)
 print("Payoff: " + str(payoff))
 
