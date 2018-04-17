@@ -5,6 +5,7 @@ import argparse
 from algorithm import *
 from graph import *
 from node import *
+from analysis import *
 
 ################################################################################
 #                                 Argparse Setup                               #
@@ -36,6 +37,8 @@ print(args)
 ################################################################################
 
 graph = Graph(args.moves)
+enum_graph_structure(graph)
+
 payoff = game(graph.vertices[0], args.player1)
 print("Payoff: " + str(payoff))
 

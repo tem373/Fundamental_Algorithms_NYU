@@ -1,5 +1,6 @@
-"@author: Thomas Mason"
+"""@author: Thomas Mason"""
 from random import uniform
+
 
 class Node:
     """A node representing one stage of the Game."""
