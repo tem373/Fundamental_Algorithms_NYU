@@ -13,6 +13,7 @@ from analysis import *
 def check_player(player1):
     if (player1 not in ["PAUL", "CAROLE"]):
         raise argparse.ArgumentTypeError("Player must be either PAUL or CAROLE")
+    return player1
 
 parser = argparse.ArgumentParser(description="Graph Theory Game")
 optional_args = parser._action_groups.pop()
@@ -25,20 +26,24 @@ required_args.add_argument('--iterations', dest='iterations', type=int,
     
 optional_args.add_argument('--player1', dest='player1', type=check_player,
     help='Give either /"PAUL/" or /"CAROLE/" as the first player',
-    required=False, default='PAUL')
+    required=False, default="PAUL")
 parser._action_groups.append(optional_args)
 
 args = parser.parse_args()
 print(args)
 
+moves = args.moves
+iterations = args.iterations
+player1 = str(args.player1)
+print("player1: " + player1)
 
 ################################################################################
 #                                  Setup and Run                               #
 ################################################################################
 
-graph = Graph(args.moves)
-enum_graph_structure(graph)
+graph = Graph(moves)
+enum_graph_structure(graph, player1)
 
-payoff = game(graph.vertices[0], args.player1)
+payoff = game(graph.vertices[0], player1)
 print("Payoff: " + str(payoff))
 
