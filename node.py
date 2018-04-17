@@ -4,7 +4,7 @@ from random import uniform
 class Node:
     """A node representing one stage of the Game."""
     # pylint: disable=too-many-instance-attributes
-    def __init__(self, give_value=False, color="WHITE", adjacents=None):
+    def __init__(self, give_value=None, color="WHITE", adjacents=None):
         self.color = color
         self.string = ""
         self.reset_value(give_value)
@@ -23,8 +23,8 @@ class Node:
     def reset_value(self, give_value):
         """Pull a node value from a specified distribution."""
         self.value = None
-        if give_value:
+        if give_value is not None:
             if give_value == "Uniform":
                 self.value = uniform(-1, 1)
             else:
-                raise ValueError('Unknown distribution ' + give_value + '.')
+                raise ValueError('Unknown distribution ' + str(give_value) + '.')
