@@ -8,18 +8,21 @@ for analysis.
 from graph import *
 from node import *
 
-def enum_graph_structure(graph):
+def enum_graph_structure(graph, player1):
     """Uses graphviz program to create a .gv file (must be compiled separately)
     to illustrate the structure of the tree. Mostly created to help keep track 
     of large trees."""
 
     filepath = "graph_structure.gv"
-    filestring = "digraph {\n"
+    filestring = "digraph {\n \tforcelabels=true;\n"
 
     string_fragment = ""
+    player = player1
+    player_colors = {"PAUL": "red", "CAROLE": "blue"}
 
     # Run through vertices
     for node in graph.vertices:
+        
         # Parent nodes
         if node.adjacents:
             child1 = node.adjacents[0]
@@ -28,14 +31,24 @@ def enum_graph_structure(graph):
             frag2 = ""
             
             if child1.value:
-                frag1 = "\t{} -> {}[label=\"{}\"];\n".format(node.string, child1.string, '%.2f' % child1.value)
-                frag2 = "\t{} -> {}[label=\"{}\"];\n".format(node.string, child2.string, '%.2f' % child2.value)                
-            
-            elif not child1.value:
+                nodestr1 = "\t{} [label=\"{}, {}\"];\n".format(child1.string, child1.string, " %.2f" % child1.value)
+                nodestr2 = "\t{} [label=\"{}, {}\"];\n".format(child2.string, child2.string, " %.2f" % child2.value)
+                               
                 frag1 = "\t{} -> {};\n".format(node.string, child1.string)
                 frag2 = "\t{} -> {};\n".format(node.string, child2.string)
-            string_fragment = string_fragment + frag1 + frag2
             
+            elif not child1.value:
+                nodestr1 = ""
+                nodestr2 = ""
+                frag1 = "\t{} -> {};\n".format(node.string, child1.string)
+                frag2 = "\t{} -> {};\n".format(node.string, child2.string)
+            string_fragment = string_fragment + nodestr1 + nodestr2 + frag1 + frag2
+            
+        # Flip players
+            if (player == "PAUL"):
+                player = "CAROLE"
+            elif (player == "CAROLE"):
+                player = "PAUL"
     
     # Write the filestring into the file    
     filestring = filestring + string_fragment + '}\n'
@@ -49,10 +62,12 @@ def enum_graph_structure(graph):
 
 class Trial:
     """Holds parameters and results of one run of the game."""
-    def __init__(self, id_number, first_player, last_player):
+    def __init__(self, id_number, first_player, last_player, num_moves):
         self.id_number = -1
         self.first_move = self.was_player_paul(first_player)
         self.last_move = self.was_player_paul(last_player)
+        self.payoff = None
+        self.num_moves = num_moves
         
     def was_player_paul(self, player):
         was_paul = False
