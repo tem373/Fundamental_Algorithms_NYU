@@ -49,12 +49,18 @@ player1 = str(args.player1)
 trial_set = []
 
 # One off graph setup to visualize the game you're playing
-graph = Graph(moves)
-enum_graph_structure(graph, player1)
+sample_graph = Graph(moves)
+enum_graph_structure(sample_graph, player1)
 
-#for iteration in iterations:
+for iteration in range(0, iterations):
+    graph = Graph(moves)
     
+payoff = game(sample_graph.vertices[0], player1) #FIX AFTERWARDS
+trial_set.append(payoff) 
 
-payoff = game(graph.vertices[0], player1)
+
+
+
+#payoff = game(graph.vertices[0], player1)
 print("Payoff: " + str(payoff))
 
