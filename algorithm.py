@@ -36,7 +36,7 @@ def dfs_nash(parent):
         if parent.maximin < child.minimax:
             parent.maximin = child.minimax
     if not parent.adjacents:
-        parent.maximin, parent.minimax = parent.value, parent.value
+        parent.minimax, parent.maximin = parent.value, parent.value
 
 
 def game(node, mover):
@@ -73,4 +73,4 @@ def dfs_nash_paths(parent):
             parent.maximin = child.minimax
             parent.argmaximin = child
     if not parent.adjacents:
-        parent.maximin, parent.minimax = parent.value, parent.value
+        parent.minimax, parent.maximin = parent.value, parent.value
