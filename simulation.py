@@ -52,7 +52,7 @@ trial_set = []
 graph = Graph(moves)
 enum_graph_structure(graph, player1)
 
-for iteration in iterations:
+#for iteration in iterations:
     
 
 payoff = game(graph.vertices[0], player1)
