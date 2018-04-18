@@ -1,16 +1,18 @@
-"""@author: Thomas Mason"""
+"""
+Basic node class with a few special fields for the Game
+(maximin, minimax, random value assignment, et cetera).
+
+@author: Thomas Mason, Alex Crain
+"""
 from random import uniform
 
 
 class Node:
     """A node representing one stage of the Game."""
-    # pylint: disable=too-many-instance-attributes
-    def __init__(self, give_value=None, color="WHITE", adjacents=None):
-        self.color = color
+
+    def __init__(self, distribution=None, adjacents=None):
         self.string = ""
-        self.reset_value(give_value)
-        self.max = None
-        self.min = None
+        self.reset_value(distribution)
         self.maximin = None
         self.minimax = None
         self.argmaximin = None
@@ -23,11 +25,15 @@ class Node:
         if adjacents is not None:
             self.adjacents = list(a for a in adjacents)
 
-    def reset_value(self, give_value):
+    def reset_value(self, distribution=None):
         """Pull a node value from a specified distribution."""
         self.value = None
-        if give_value is not None:
-            if give_value == "Uniform":
-                self.value = uniform(-1, 1)
+        if distribution is not None:
+            bound = int(distribution[-1])
+            lower, upper = -bound, bound
+            key = distribution[:-1]
+            if key == "Uniform":
+                self.value = uniform(lower, upper)
             else:
-                raise ValueError('Unknown distribution ' + str(give_value) + '.')
+                raise ValueError(
+                    'Unknown distribution ' + str(distribution) + '.')
