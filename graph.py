@@ -8,36 +8,34 @@ and all nodes save the leaves receive adjacencies.
 """
 from node import Node
 
+
 class Graph:
     """Construct the DAG for an n-move Game."""
-    def __init__(self, num_moves, give_value="Uniform"):
+
+    def __init__(self, num_moves, distribution="Uniform1"):
         self.num_moves = num_moves
         self.count_nodes()
         self.vertices = list(Node() for v in range(self.num_nodes))
-        self.structure(give_value)
-
+        self.structure(distribution)
 
     def count_nodes(self):
         """Derive some useful node tallies from the number of moves."""
-        self.num_nodes = 2 ** (self.num_moves + 1) - 1
-        self.num_leaves = 2 ** self.num_moves
-        self.num_parents = 2 ** self.num_moves - 1
+        self.num_nodes = (1 << (self.num_moves + 1)) - 1
+        self.num_leaves = 1 << self.num_moves
+        self.num_parents = (1 << self.num_moves) - 1
 
-
-    def structure(self, give_value):
+    def structure(self, distribution):
         """Assign adjacency lists, strings, and values to each node."""
         for index, vertex in enumerate(self.vertices):
             if index < self.num_parents:
-                vertex.adjacents.append(self.vertices[2 * index + 1])
-                vertex.adjacents.append(self.vertices[2 * index + 2])
+                vertex.adjacents.append(self.vertices[(index << 1) + 1])
+                vertex.adjacents.append(self.vertices[(index << 1) + 2])
             else:
-                vertex.reset_value(give_value)
+                vertex.reset_value(distribution)
             if index < self.num_nodes - 1:
-                parent_name = self.vertices[int(index / 2)].string
+                parent_name = self.vertices[index >> 1].string
                 self.vertices[index + 1].string += parent_name + str(index % 2)
-        
         self.vertices[0].string = 'START'
-
 
     def leaf_values(self):
         """Get the values of all the leaves."""

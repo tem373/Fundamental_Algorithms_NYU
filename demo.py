@@ -7,26 +7,30 @@ Created on Mon Apr 16 02:52:11 2018
 @author: Alex Crain
 """
 import numpy as np
-from algorithm import game
+from algorithm import game, dfs_nash
 from graph import Graph
 
 payoff_paul_goes_first = list()
 payoff_carole_goes_first = list()
-for i in range(4,7):
+for i in range(1,16):
     payoff_paul_goes_first = list()
     payoff_carole_goes_first = list()
-    for j in range(10):
+    for j in range(20):
         g = Graph(i)
-        payoff_paul_goes_first.append(game(g.vertices[0], "PAUL"))
-        payoff_carole_goes_first.append(game(g.vertices[0], "CAROLE"))
+        dfs_nash(g.vertices[0])
+        payoff_paul_goes_first.append(g.vertices[0].maximin)
+        payoff_carole_goes_first.append(g.vertices[0].minimax)
     print("Move count", i)
-    print("Paul first:", np.mean(payoff_paul_goes_first))
-    print("Carole first:", np.mean(payoff_carole_goes_first))
+    print("Paul first:", np.mean(payoff_paul_goes_first), np.var(payoff_paul_goes_first))
+    print("Carole first:", np.mean(payoff_carole_goes_first), np.var(payoff_carole_goes_first))
 
-#g = Graph(5)
-#paypaul = game(g.vertices[0], "PAUL")
-#paycaro = game(g.vertices[0], "CAROLE")
+g = Graph(6)
+paypaul = game(g.vertices[0], "PAUL")
+paycaro = game(g.vertices[0], "CAROLE")
+paulfirst = g.vertices[0].maximin
+carofirst = g.vertices[0].minimax
 
+## Should give Paul 6 and Carole 3.
 #g = Graph(3)
 #g.vertices[7].value = 5
 #g.vertices[8].value = 3
