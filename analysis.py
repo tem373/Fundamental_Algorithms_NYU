@@ -62,19 +62,26 @@ def enum_graph_structure(graph, player1):
 
 class Trial:
     """Holds parameters and results of one run of the game."""
-    def __init__(self, id_number, first_player, last_player, num_moves):
-        self.id_number = -1
-        self.first_move = self.was_player_paul(first_player)
-        self.last_move = self.was_player_paul(last_player)
-        self.payoff = None
+    def __init__(self, num_id, num_moves, first_player, payoff):
+        self.num_id = -1
         self.num_moves = num_moves
-        
-    def was_player_paul(self, player):
-        was_paul = False
-        if player == "PAUL":
-            was_paul = True
-        elif player == "CAROLE":
-            was_paul = False
+        self.first_player = first_player
+        self.set_last_player(first_player, num_moves)
+        self.payoff = payoff
+
+    def set_last_player(self, first_player, num_moves):
+        """Figures out who moved last."""
+        if first_player != "PAUL" and first_player != "CAROLE":
+            raise ValueError('Unknown player ' + first_player + ' got a move.')
+        if num_moves % 2:
+            self.last_player = first_player
         else:
-            raise ValueError('Unknown player ' + player + ' got a move.')
-        return was_paul
+            if first_player == "PAUL":
+                self.last_player = "CAROLE"
+            else:
+                self.last_player = "PAUL"
+
+    def as_list(self):
+        """Get a list of all the trial data."""
+        return [self.num_id, self.num_moves, self.first_player,
+                self.last_player, self.payoff]
