@@ -1,9 +1,7 @@
 """
-Run some trials of the game and save relevant parameters
-for analysis.
-
-
-@author: Alex Crain, Thomas Mason
+Graph visualization utility.
+Might add other plotting tools here later.
+@author: Thomas Mason
 """
 from graph import *
 from node import *
@@ -58,30 +56,4 @@ def enum_graph_structure(graph, player1):
 
     # To run the file
     print("To generate the graph in .png format, run: ")
-    print("dot -Tpng -O graph_structure.gv")
-
-class Trial:
-    """Holds parameters and results of one run of the game."""
-    def __init__(self, num_id, num_moves, first_player, payoff):
-        self.num_id = -1
-        self.num_moves = num_moves
-        self.first_player = first_player
-        self.set_last_player(first_player, num_moves)
-        self.payoff = payoff
-
-    def set_last_player(self, first_player, num_moves):
-        """Figures out who moved last."""
-        if first_player != "PAUL" and first_player != "CAROLE":
-            raise ValueError('Unknown player ' + first_player + ' got a move.')
-        if num_moves % 2:
-            self.last_player = first_player
-        else:
-            if first_player == "PAUL":
-                self.last_player = "CAROLE"
-            else:
-                self.last_player = "PAUL"
-
-    def as_list(self):
-        """Get a list of all the trial data."""
-        return [self.num_id, self.num_moves, self.first_player,
-                self.last_player, self.payoff]
+print("dot -Tpng -O graph_structure.gv")

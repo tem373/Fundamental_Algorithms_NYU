@@ -23,12 +23,13 @@ class Node:
         """Assign adjacency list."""
         self.adjacents = list()
         if adjacents is not None:
-            self.adjacents = list(a for a in adjacents)
+            self.adjacents = adjacents
 
     def reset_value(self, distribution=None):
         """Pull a node value from a specified distribution."""
-        self.value = None
-        if distribution is not None:
+        if distribution is None:
+            self.value = None
+        else:
             bound = int(distribution[-1])
             lower, upper = -bound, bound
             key = distribution[:-1]
