@@ -21,19 +21,24 @@ def main():
     game_type = sys.argv[3]
     output_file = sys.argv[4]
     spread = sys.argv[5]
-    if game_type == "standard":
-        trials = standard_experiment(trials_per_moves, max_moves, spread)
-    elif game_type == "rand_graph":
-        trials = rand_graph_experiment(trials_per_moves, max_moves, spread)
+    if game_type < 3:
+        trials = experiment(trials_per_moves, max_moves, spread, game_type)
+    else:
+        print("Unknown game type", game_type)
+    save_trials(trials, output_file)
     return 0
 
 
-def standard_experiment(trials_per_moves, max_moves, distribution):
+def save_trials(trials, output_file):
+    
+
+
+def experiment(trials_per_moves, max_moves, distribution, rand_graph):
     """Play standard Game up to a given numer of possible moves."""
     trials = list()
     for i in range(1, max_moves + 1):
         for j in range(trials_per_moves):
-            graph_instance = Graph(i, distribution, rand_graph=0)
+            graph_instance = Graph(i, distribution, rand_graph)
             root = graph_instance.vertices[0]
             dfs_nash(root)
             trials.append(Trial(j, i, "PAUL", root.maximin).as_list())
