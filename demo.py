@@ -10,10 +10,10 @@ from graph import Graph
 
 payoff_paul_goes_first = list()
 payoff_carole_goes_first = list()
-for i in range(1, 10):
+for i in range(1, 17):
     payoff_paul_goes_first = list()
     payoff_carole_goes_first = list()
-    for j in range(1):
+    for j in range(1000):
         g = Graph(i, graph_mode=2)
         dfs_nash(g.vertices[0])
         payoff_paul_goes_first.append(g.vertices[0].maximin)
