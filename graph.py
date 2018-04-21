@@ -30,12 +30,13 @@ class Graph:
         """Assign adjacency lists, strings, and values to each node."""
         for index, vertex in enumerate(self.vertices):
             if index < self.num_parents:
-                vertex.adjacents = (self.define_adjacents(index, graph_mode))
+                vertex.adjacents = self.define_adjacents(index, graph_mode)
             else:
                 vertex.reset_value(distribution)
             if index < self.num_nodes - 1:
                 parent_name = self.vertices[index >> 1].string
                 self.vertices[index + 1].string += parent_name + str(index % 2)
+        self.vertices[0].string = 'START'
 
     def define_adjacents(self, index, graph_mode):
         """Assign deterministic (tree-structured) or random adjacency lists.

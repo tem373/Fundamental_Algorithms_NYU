@@ -13,7 +13,7 @@ payoff_carole_goes_first = list()
 for i in range(1, 10):
     payoff_paul_goes_first = list()
     payoff_carole_goes_first = list()
-    for j in range(5):
+    for j in range(1):
         g = Graph(i, graph_mode=1)
         dfs_nash(g.vertices[0])
         payoff_paul_goes_first.append(g.vertices[0].maximin)
