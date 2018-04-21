@@ -39,7 +39,7 @@ class Graph:
         self.vertices[0].string = 'START'
 
     def define_adjacents(self, index, graph_mode):
-        """Assign deterministic (tree-structured) or random adjacency lists.
+        """Assign deterministic (spanning tree) or random adjacency lists.
         Random mode 1 does not skip moves, whereas random mode 2 can.
         Note that we may end up with "orphan" nodes in the random cases,
         which will effectively be excluded from the Game."""
