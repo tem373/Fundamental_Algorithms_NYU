@@ -21,14 +21,18 @@ def plot_moments(data_file, move, oname=None, moments=None):
         save = True
     if moments is None:
         moments = get_moments(data_file, move)
-    plt.style.use('dark_background')
+    plt.style.use('seaborn-whitegrid')
     plt.grid('True')
+    lines = {'linestyle': 'None'}
+    plt.rc('lines', **lines)
     max_moves = np.arange(np.shape(moments)[0]) + 1
     paul_plot, = plt.plot(max_moves, moments[:, 0], 'o', color='#3C9BF5')
     carole_plot, = plt.plot(max_moves, moments[:, 2], 'o', color='#B5075F')
+    plt.errorbar(max_moves, moments[:, 0], markeredgewidth=3, yerr=moments[:, 1], color='#3C9BF5')
+    plt.errorbar(max_moves, moments[:, 2], markeredgewidth=3, yerr=moments[:, 3], color='#B5075F')
     plt.legend(
         [paul_plot, carole_plot], ["Paul " + move, "Carole " + move],
-        loc='center right')
+        loc='best')
     plt.xlabel('Number of Moves in Game')
     plt.ylabel('Payoff')
     plt.xticks(max_moves)
