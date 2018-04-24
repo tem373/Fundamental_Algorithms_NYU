@@ -7,14 +7,17 @@ from graph import *
 from node import *
 from analysis import *
 
+
 ################################################################################
 #                                 Argparse Setup                               #
 ################################################################################
 def check_player(player1):
     """Checks to see if the player provided a legitimate player (Paul or Carole)"""
     if (player1 not in ["PAUL", "CAROLE"]):
-        raise argparse.ArgumentTypeError("Player must be either PAUL or CAROLE")
+        raise argparse.ArgumentTypeError(
+            "Player must be either PAUL or CAROLE")
     return player1
+
 
 parser = argparse.ArgumentParser(description="Graph Theory Game")
 optional_args = parser._action_groups.pop()
@@ -22,17 +25,29 @@ optional_args = parser._action_groups.pop()
 # Define required arguments
 required_args = parser.add_argument_group("Required Arguments: ")
 # Give the number of moves for the game (ex: 3 == Paul->Carole->Paul)
-required_args.add_argument('--moves', dest='moves', type=int,
-    help='How many moves (n) are in the game?', required=True)
+required_args.add_argument(
+    '--moves',
+    dest='moves',
+    type=int,
+    help='How many moves (n) are in the game?',
+    required=True)
 # Give how many games of the same type (but different values) you want to run
 # (ex: 5 == play 5 games with <n> moves and player1 = <your choice>)
-required_args.add_argument('--iterations', dest='iterations', type=int,
-    help='How many samples of the specified game to run', required=True)
+required_args.add_argument(
+    '--iterations',
+    dest='iterations',
+    type=int,
+    help='How many samples of the specified game to run',
+    required=True)
 
 # Specify who you want to play first
-optional_args.add_argument('--player1', dest='player1', type=check_player,
+optional_args.add_argument(
+    '--player1',
+    dest='player1',
+    type=check_player,
     help='Give either /"PAUL/" or /"CAROLE/" as the first player',
-    required=False, default="PAUL")
+    required=False,
+    default="PAUL")
 parser._action_groups.append(optional_args)
 
 args = parser.parse_args()
@@ -54,13 +69,9 @@ enum_graph_structure(sample_graph, player1)
 
 for iteration in range(0, iterations):
     graph = Graph(moves)
-    
-payoff = game(sample_graph.vertices[0], player1) #FIX AFTERWARDS
-trial_set.append(payoff) 
 
-
-
+payoff = game(sample_graph.vertices[0], player1)  #FIX AFTERWARDS
+trial_set.append(payoff)
 
 #payoff = game(graph.vertices[0], player1)
 print("Payoff: " + str(payoff))
-
