@@ -21,7 +21,7 @@ does that). Thus, GAME is just a utility for re-tracing
 the optimal path of the game from start to finish,
 for each potential first mover.
 
-@author: Alex J. Crain
+@author: Alex Crain
 """
 from math import inf
 

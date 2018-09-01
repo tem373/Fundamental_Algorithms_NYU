@@ -1,12 +1,11 @@
 """
-Run some trials of the game and save relevant parameters
-for analysis.
-
-
-@author: Alex Crain, Thomas Mason
+Graph visualization utility.
+Might add other plotting tools here later.
+@author: Thomas Mason
 """
 from graph import *
 from node import *
+
 
 def enum_graph_structure(graph, player1):
     """Uses graphviz program to create a .gv file (must be compiled separately)
@@ -22,35 +21,37 @@ def enum_graph_structure(graph, player1):
 
     # Run through vertices
     for node in graph.vertices:
-        
+
         # Parent nodes
         if node.adjacents:
             child1 = node.adjacents[0]
             child2 = node.adjacents[1]
             frag1 = ""
             frag2 = ""
-            
+
             if child1.value:
-                nodestr1 = "\t{} [label=\"{}, {}\"];\n".format(child1.string, child1.string, " %.2f" % child1.value)
-                nodestr2 = "\t{} [label=\"{}, {}\"];\n".format(child2.string, child2.string, " %.2f" % child2.value)
-                               
+                nodestr1 = "\t{} [label=\"{}, {}\"];\n".format(
+                    child1.string, child1.string, " %.2f" % child1.value)
+                nodestr2 = "\t{} [label=\"{}, {}\"];\n".format(
+                    child2.string, child2.string, " %.2f" % child2.value)
+
                 frag1 = "\t{} -> {};\n".format(node.string, child1.string)
                 frag2 = "\t{} -> {};\n".format(node.string, child2.string)
-            
+
             elif not child1.value:
                 nodestr1 = ""
                 nodestr2 = ""
                 frag1 = "\t{} -> {};\n".format(node.string, child1.string)
                 frag2 = "\t{} -> {};\n".format(node.string, child2.string)
             string_fragment = string_fragment + nodestr1 + nodestr2 + frag1 + frag2
-            
-        # Flip players
+
+            # Flip players
             if (player == "PAUL"):
                 player = "CAROLE"
             elif (player == "CAROLE"):
                 player = "PAUL"
-    
-    # Write the filestring into the file    
+
+    # Write the filestring into the file
     filestring = filestring + string_fragment + '}\n'
 
     with open(filepath, 'w') as outfile:
@@ -69,19 +70,4 @@ class Trial:
         self.set_last_player(first_player, num_moves)
         self.payoff = payoff
 
-    def set_last_player(self, first_player, num_moves):
-        """Figures out who moved last."""
-        if first_player != "PAUL" and first_player != "CAROLE":
-            raise ValueError('Unknown player ' + first_player + ' got a move.')
-        if num_moves % 2:
-            self.last_player = first_player
-        else:
-            if first_player == "PAUL":
-                self.last_player = "CAROLE"
-            else:
-                self.last_player = "PAUL"
-
-    def as_list(self):
-        """Get a list of all the trial data."""
-        return [self.num_id, self.num_moves, self.first_player,
-                self.last_player, self.payoff]
+print("dot -Tpng -O graph_structure.gv")
