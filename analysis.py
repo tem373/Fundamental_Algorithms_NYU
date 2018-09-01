@@ -58,7 +58,16 @@ def enum_graph_structure(graph, player1):
         outfile.write(filestring)
 
     # To run the file
-    print("To generate the graph in .png format, run: ")
+    print("To generate the graph in .eps format, run: ")
+    print("dot -Teps graph_structure.gv -o graph_structure.eps")
 
+class Trial:
+    """Holds parameters and results of one run of the game."""
+    def __init__(self, num_id, num_moves, first_player, payoff):
+        self.num_id = -1
+        self.num_moves = num_moves
+        self.first_player = first_player
+        self.set_last_player(first_player, num_moves)
+        self.payoff = payoff
 
 print("dot -Tpng -O graph_structure.gv")
